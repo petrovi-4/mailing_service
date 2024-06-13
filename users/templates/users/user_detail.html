@@ -1,0 +1,31 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<body>
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">SkyService</h1>
+    <p class="lead">Никнейм пользователя: {{ user.username | title }}</p>
+</div>
+  <div class="container">
+    <div class="row">
+         <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <span class="text-muted">Почта пользователя: {{ user.email }}</span><br>
+              <span class="text-muted">Номер телефона : {{ user.phone }}</span>
+            </div>
+            <div class="card-footer">
+            {% if perms.users.change_user or user.is_superuser %}
+                <a type="button" href="{% url 'users:edit_user' user.pk%}" class="w-100 btn btn-lg btn-primary">Изменить</a>
+            {% endif %}
+            {% if perms.users.delete_user or user.is_superuser %}
+                <a type="button" href="{% url 'users:delete_user' user.pk%}" class="w-100 btn btn-lg btn-primary">Удалить</a>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

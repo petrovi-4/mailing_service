@@ -1,0 +1,31 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+{% block icon %}
+    <title>Добавить сообщение</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-12">
+            <form class='row' method="post" enctype="multipart/form-data">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <h3 class="card-title">Добавить сообщение</h3>
+                            </div>
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                 {% if message %}
+                                    <br><button type="submit" class="btn btn-success">Сохранить</button>
+                                 {% else %}
+                                    <br><button type="submit" class="btn btn-success">Создать</button>
+                                 {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+{% endblock %}

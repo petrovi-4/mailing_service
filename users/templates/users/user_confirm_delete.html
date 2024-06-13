@@ -1,0 +1,24 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data">
+                     <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Удалить пользователя</h3>
+                                </div>
+                            <div class="card-body">
+                                    {% csrf_token %}
+                                    <p>Действительно ли вы хотите удалить пользователя {{ user.email }} ?</p>
+                                    <button type="submit" class="btn btn-danger">Подтвердить</button>
+                                    <a href="{% url 'services:client_list' %}" class="btn btn-warning">Отмена</a>
+                            </div>
+                        </div>
+                     </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+{% block icon %}
+    <title>Удалить сообщение</title>
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_superuser or message.owner == request.user or perms.mailing.delete_message%}
+        <div class="col-12">
+                <form class='row' method="post" enctype="multipart/form-data">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Удалить сообщение</h3>
+                                </div>
+                                    {% csrf_token %}
+                                     <p>Действительно ли вы хотите удалить сообщение {{ message.subject }} ?</p>
+                                    <button type="submit" class="btn btn-danger">Подтвердить</button>
+                                    <a href="{% url 'mailing:list_message' %}" class="btn btn-warning">Отмена</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    {% else %}
+        У вас нету прав для удаления сообщения "{{ message.subject }}"
+    {% endif %}
+{% endblock %}

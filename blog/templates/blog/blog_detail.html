@@ -1,0 +1,33 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<title>Обзор блога</title>
+
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4 box-shadow">
+        <img class="card-img-top"
+             src="{{ object.image }}"
+             alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text"><strong>{{ object.title }}</strong></p>
+            <strong>{{ object.description }}</strong>
+          <hr>
+          Количество просмотров: <em>{{ object.views_count }}</em>
+        </div>
+        <div class="btn-group">
+        {% if perms.blog.change_blog %}
+          <a href="{% url 'blog:edit' object.pk  %}" type="button" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+        {% endif %}
+        </div>
+         <div class="btn-group">
+         {% if perms.blog.delete_blog or user.is_superuser %}
+          <a href="{% url 'blog:delete' object.pk  %}" type="button" class="btn btn-sm btn-outline-secondary">Удалить</a>
+         {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

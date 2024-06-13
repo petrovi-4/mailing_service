@@ -1,0 +1,55 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+{% block icon %}
+    <title>Список писем</title>
+{% endblock %}
+
+</head>
+<body>
+
+{% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">SkyService</h1>
+        <p class="lead">Добро пожаловать ^_^</p>
+    </div>
+
+  <main>
+    {% for message in message_list %}
+      {% if user.is_superuser or message.owner == request.user %}
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">Тема письма: {{ message.subject }}</h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>Тело письма: {{ message.body }}</li>
+                </ul>
+                <a type="button" href="{% url 'mailing:view_message' message.pk%}" class="w-100 btn btn-lg
+                btn-primary">Информация</a>
+                {% if perms.mailing.change_message or user.is_superuser or message.owner == request.user %}
+                    <a type="button" href="{% url 'mailing:edit_message' message.pk%}" class="w-100 btn btn-lg
+                    btn-primary">Изменить</a>
+                {% endif %}
+                {% if user.is_superuser or newsletter.owner == request.user or message.owner == request.user %}
+                    <a type="button" href="{% url 'mailing:delete_message' message.pk%}" class="w-100 btn btn-lg
+                    btn-primary">Удалить</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </main>
+   <div class="col-12 mb-5">
+      <a href="{% url 'mailing:create_message' %}" class="btn btn-outline-primary">Добавить Сообщение</a>
+   </div>
+{% endblock %}
+
+
+</body>
+</html>

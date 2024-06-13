@@ -1,0 +1,27 @@
+<div class="container py-3">
+  <header>
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+      <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:home' %}"><button>Главная</button></a>
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:client_list' %}"><button>Клиенты</button></a>
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:list_newsletter' %}"><button>Рассылки</button></a>
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:create_newsletter' %}"><button>Создать рассылку</button></a>
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:logs_list' %}"><button>Отчет проведенных рассылок отдельно</button></a>
+        {% if user.is_authenticated %}
+           {% if perms.users.change_user %}
+            <a class="link-body-emphasis text-decoration-none" href="{% url 'users:edit_user' user.pk %}" ><button>Редактировать профиль</button></a>
+           {% endif %}
+            <form method="post" action="{% url 'users:logout' %}">
+            {% csrf_token %}
+            <button class="link-body-emphasis text-decoration-none" type="submit">Выйти</button>
+            </form>
+        {% else %}
+            <a class="ink-body-emphasis text-decoration-none" href="{% url 'users:register' %}"><button>Регистрация</button></a>
+            <a class="ink-body-emphasis text-decoration-none" href="{% url 'users:login' %}"><button>Войти</button></a>
+        {% endif %}
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'mailing:contacts' %}"> <button>Контакты</button></a>
+        <a class="link-body-emphasis text-decoration-none" href="{% url 'blog:blogs_list' %}"> <button>Блог</button></a>
+      </nav>
+    </div>
+  </header>
+</div>

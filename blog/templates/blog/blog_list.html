@@ -1,0 +1,45 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<title>Blogs</title>
+
+
+{% block content %}
+<div class="col-12 mb-5">
+  <a href="{% url 'blog:create_blog' %}" class="btn btn-outline-primary">Создать блог</a>
+</div>
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row">
+        {% for object in object_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <p class="card-text"><strong>{{ object.title }}</strong></p>
+                  <p class="card-text">{{ object.description | truncatechars:20 }}</p>
+                    <p class="card-text">Дата публикации: {{object.published_date}}</p>
+                  <img class="card-img-top" height="300" src="{{ object.image }}">
+                    <br>
+                  <br><div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="{% url 'blog:view' object.pk  %}" type="button" class="btn btn-sm btn-outline-secondary">К блогу</a>
+                    </div>
+                    <div class="btn-group">
+                    {% if perms.blog.change_blog %}
+                      <a href="{% url 'blog:edit' object.pk  %}" type="button" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                    {% endif %}
+                    </div>
+                     <div class="btn-group">
+                    {% if perms.blog.delete_blog or user.is_superuser %}
+                      <a href="{% url 'blog:delete' object.pk  %}" type="button" class="btn btn-sm btn-outline-secondary">Удалить</a>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+
+<html lang="en">
+<head>
+
+{% block icon %}
+    <title>Список рассылок</title>
+{% endblock %}
+
+</head>
+<body>
+
+
+{% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Статистика рассылок</h1>
+    </div>
+    <div class="col-12 mb-5">
+      <p>Общее количество рассылок: {{total_count}}</p>
+      <p>Общее количество успешных рассылок: {{successful_count}}</p>
+      <p>Общее количество неуспешных рассылок: {{unsuccessful_count}}</p>
+    </div>
+{% endblock %}
+
+</body>
+</html>

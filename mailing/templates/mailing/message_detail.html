@@ -1,0 +1,40 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+{% block icon %}
+    <title>Информация о сообщении</title>
+{% endblock %}
+
+</head>
+<body>
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">SkyService</h1>
+    <p class="lead">Тема письма: {{ message.subject| title }} </p>
+</div>
+  <div class="container">
+    <div class="row">
+         <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <span class="text-muted">Тело письма: {{ message.body }}</span><br>
+            </div>
+            <div class="card-footer">
+              {% if perms.mailing.change_message or user.is_superuser or message.owner == request.user %}
+                <a class="btn btn-link" href="{% url 'mailing:edit_message' message.pk%}">Изменить</a>
+              {% endif %}
+              {% if user.is_superuser or newsletter.owner == request.user or message.owner == request.user %}
+                <a class="btn btn-link" href="{% url 'mailing:delete_message' message.pk%}">Удалить</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+</body>
+</html>

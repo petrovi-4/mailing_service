@@ -1,0 +1,36 @@
+{% extends 'mailing/base.html' %}
+{% load static %}
+
+
+<body>
+
+{% block content %}
+    {% if perms.users.view_user or user.is_superuser %}
+        {% for user in users_list %}
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Список пользователей</h4>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                      <li>{{ user }}</li>
+                    </ul>
+                    <a type="button" href="{% url 'users:view_user' user.pk%}" class="w-100 btn btn-lg btn-primary">Информация</a>
+                    {% if perms.users.change_user or user.is_superuser %}
+                        <a type="button" href="{% url 'users:edit_user' user.pk%}" class="w-100 btn btn-lg btn-primary">Изменить</a>
+                    {% endif %}
+                    {% if perms.users.delete_user or user.is_superuser %}
+                        <a type="button" href="{% url 'users:delete_user' user.pk%}" class="w-100 btn btn-lg btn-primary">Удалить</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+</body>
