@@ -29,3 +29,52 @@
     </svg>
 
     {% include 'includes/main_menu.html' %}
+
+
+  {% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">SkyService</h1>
+        <p class="lead">Добро пожаловать ^_^</p>
+    </div>
+    <div class="col-12 mb-5">
+      <a href="{% url 'mailing:client_list' %}" class="btn btn-outline-primary">Список клиентов</a>
+      <a href="{% url 'mailing:list_message' %}" class="btn btn-outline-primary">Список сообщений</a>
+      <a href="{% url 'mailing:list_newsletter' %}" class="btn btn-outline-primary">Список рассылок</a>
+    </div>
+    <div class="card-body">
+      <caption><h2>Записи в блогах</h2></caption>
+      <table class="table table-striped">
+          <tr>
+            <th>Название блога</th>
+            <th>Описание блога</th>
+            <th>Дата публикации</th>
+            <th>Ссылка на блог</th>
+          </tr>
+         {% for article in filtred_list %}
+          <tr>
+              <td>{{ article.title }}</td>
+              <td>{{ article.description }}</td>
+              <td>{{ article.published_date }}</td>
+              <td><a href='{% url "blog:view" article.pk %}'> Перейти к блогу</a></td>
+          </tr>
+         {% endfor %}
+      </table>
+    </div>
+  {% endblock  %}
+
+
+  <footer class="text-body-secondary py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="{% url 'mailing:home' %}">SkyService</a>
+        </p>
+        <p class="mb-1">&copy; 2023 - {% now 'Y' %} </p>
+    </div>
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</div>
+<script src="{% static 'js/bundle.min.js' %}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    </body>
+</html>
