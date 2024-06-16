@@ -9,11 +9,19 @@ from mailing.models import Client, Message, Newsletter, Logs
 
 
 def send_email():
+    """
+    Отправляет электронные письма всем клиентам в соответствии с запланированными рассылками.
+
+    Функция проверяет статус каждой рассылки и отправляет письма всем клиентам,
+    ведет логирование каждой попытки отправки и обновляет статус рассылок в зависимости от времени.
+    """
+    # Получение всех клиентов и их email
     clients = Client.objects.all()
     clients_email = []
     for client in clients:
         clients_email.append(getattr(client, 'email'))
 
+    # Получение всех сообщений и их содержимого
     messages = Message.objects.all()
     message_subject = []
     message_body = []
@@ -21,6 +29,7 @@ def send_email():
         message_subject.append(getattr(message, 'subject'))
         message_body.append(getattr(message, 'body'))
 
+    # Получение текущего времени с учетом часового пояса
     newsletters = Newsletter.objects.all()
     naive_datetime = datetime.now()
     now = naive_datetime.replace(tzinfo=pytz.utc)
@@ -30,6 +39,7 @@ def send_email():
             for i in range(len(message_subject)):
                 newsletter.status = 'запущена'
                 try:
+                    # Отправка письма
                     send_mail(
                         subject=message_subject[i],
                         message=message_body[i],
@@ -43,11 +53,13 @@ def send_email():
                     attempt = False
                     response = f'Ошибка при отправке письма: {str(e)}'
                 finally:
+                    # Логирование попытки отправки для каждого клиента
                     for client in newsletter.client.all():
                         (Logs.objects.create(
                             attempt=attempt, attempt_time=now, response=response, newsletter=newsletter, client=client
                         )).save()
 
+                # Обновление времени начала следующей рассылки в зависимости от периодичности
                 if newsletter.periodicity == 'Ежедневно':
                     newsletter.start_time += timedelta(days=1, hours=0, minutes=0)
                 elif newsletter.periodicity == 'Еженедельно':
