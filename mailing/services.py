@@ -6,13 +6,13 @@ from django.core.mail import send_mail
 
 def homepage_cache():
     if settings.CACHE_ENABLED:
-        key = f'random_article'
+        key = 'random_article'
         random_article = cache.get(key)
         if random_article is None:
             random_article = Blog.objects.order_by('?')[:3]
             cache.set(key, random_article)
         else:
-            random_article = Blog.object.order_by('?')[:3]
+            random_article = Blog.objects.order_by('?')[:3]
 
         return random_article
 

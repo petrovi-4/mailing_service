@@ -213,4 +213,3 @@ class LogsListView(LoginRequiredMixin, ListView):
         context_data['successful_count'] = Logs.objects.filter(attempt=True).count()
         context_data['unsuccessful_count'] = Logs.objects.filter(attempt=False).count()
         return context_data
-    

@@ -56,7 +56,7 @@ class Newsletter(models.Model):
         verbose_name='статус рассылки',
     )
     client = models.ManyToManyField(Client, verbose_name='клиент', blank=True)
-    message = models.ForeignKey(Message, verbose_name='сообщение',  on_delete=models.CASCADE, **NULLABLE)
+    message = models.ForeignKey(Message, verbose_name='сообщение', on_delete=models.CASCADE, **NULLABLE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='владелец', **NULLABLE)
 
     def __str__(self):

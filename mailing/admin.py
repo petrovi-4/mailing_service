@@ -23,5 +23,5 @@ class NewsletterAdmin(admin.ModelAdmin):
 
 @admin.register(Logs)
 class LogsAdmin(admin.ModelAdmin):
-    list_display = ('attempt', 'attempt_time','response',)
+    list_display = ('attempt', 'attempt_time', 'response',)
     search_fields = ('client', 'newsletter',)
